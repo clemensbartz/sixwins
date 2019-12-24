@@ -22,9 +22,16 @@ import de.clemens.games.sixwins.enums.ERiskAttitudes;
 import de.clemens.games.sixwins.facades.SimulationFacade;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.StreamSupport;
 
 /**
  * Console application entry point.
@@ -52,34 +59,24 @@ public final class Main {
      * @param args command line arguments
      */
     public static void main(final String[] args) {
-        final Integer maxSeed = 1000;
+        final long now = System.currentTimeMillis();
+
+        final int maxSeed = 1000;
         final Integer runs = 1000;
         final Integer numberOfStickPerPlayer = 20;
         final String[] playerLabels = {"Player 1", "Player 2"};
 
-        final List<Map<String, Integer>> winningTables = getWinningTables(playerLabels);
-
-        if (winningTables.size() != E_RISK_ATTITUDES.length) {
-            throw new RuntimeException("Cannot store enough results");
-        }
-
         final SimulationFacade simulationFacade = new SimulationFacade();
 
-        // Go through all seeds
-        for (int seed=0; seed<maxSeed; seed++) {
+        StreamSupport.stream(Arrays.spliterator(E_RISK_ATTITUDES), true).forEach(
+                eRiskAttitudes -> {
+                    final Map<String, Long> results = StreamSupport.longStream(LongStream.range(0, maxSeed-1).spliterator(), true).mapToObj(
+                            value -> simulationFacade.simulate(value, playerLabels, runs, numberOfStickPerPlayer, eRiskAttitudes)
+                    ).flatMap(Collection::stream).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-            // Perform simulation for all risk combinations
-            for (int i=0; i<E_RISK_ATTITUDES.length; i++) {
-                final ERiskAttitudes[] riskAttitudes = E_RISK_ATTITUDES[i];
-                final Map<String, Integer> winningTable = winningTables.get(i);
-
-                simulationFacade.simulate((long) seed, playerLabels, winningTable, runs, numberOfStickPerPlayer, riskAttitudes);
-            }
-        }
-
-        for (final Map<String, Integer> winningTable : winningTables) {
-            printResult(playerLabels, winningTable);
-        }
+                    printResult(playerLabels, results);
+                }
+        );
     }
 
     /**
@@ -87,30 +84,9 @@ public final class Main {
      * @param playerLabels the labes for the players
      * @param winningTable the winning table
      */
-    private static void printResult(final String[] playerLabels, final Map<String, Integer> winningTable) {
+    private static void printResult(final String[] playerLabels, final Map<String, Long> winningTable) {
         for (final String label : playerLabels) {
             System.out.println(label + ": " + winningTable.get(label));
         }
-    }
-
-    /**
-     * Create the winning tables.
-     * @param playerLabels the labels for the players
-     * @return a list of the winning tables
-     */
-    private static List<Map<String, Integer>> getWinningTables(final String[] playerLabels) {
-        final List<Map<String, Integer>> winningTables = new ArrayList<>(E_RISK_ATTITUDES.length);
-
-        for (int i=0; i<E_RISK_ATTITUDES.length; i++) {
-            final Map<String, Integer> winningTable = new HashMap<>(playerLabels.length);
-
-            for (String label : playerLabels) {
-                winningTable.put(label, 0);
-            }
-
-            winningTables.add(winningTable);
-        }
-
-        return winningTables;
     }
 }

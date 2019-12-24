@@ -26,9 +26,13 @@ import de.clemens.games.sixwins.factories.StickFactory;
 import de.clemens.games.sixwins.singletons.RandomNumberGenerator;
 import de.clemens.games.sixwins.utils.DiceUtils;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
 
 /**
  * This class is used to simulate a game.
@@ -40,20 +44,16 @@ public class SimulationFacade {
      * Simulate a run.
      * @param seed the current seed
      * @param playerLabels the labes for the players
-     * @param winningTable the table to store the winning
      * @param runs how many runs to run
      * @param numberOfStickPerPlayer how many sticks each player should get
      * @param riskAttitudes the attitudes
      */
-    public void simulate(final Long seed, final String[] playerLabels, final Map<String, Integer> winningTable, final Integer runs, final Integer numberOfStickPerPlayer, final ERiskAttitudes[] riskAttitudes) {
+    public List<String> simulate(final Long seed, final String[] playerLabels, final Integer runs, final Integer numberOfStickPerPlayer, final ERiskAttitudes[] riskAttitudes) {
         RandomNumberGenerator.getInstance().setSeed(seed);
 
-        for (int i=0; i<runs; i++) {
-            final String playerName = playGame(playerLabels, numberOfStickPerPlayer, riskAttitudes);
-
-            final int wins = winningTable.get(playerName) + 1;
-            winningTable.put(playerName, wins);
-        }
+        return StreamSupport.intStream(IntStream.range(0, runs-1).spliterator(), true).mapToObj(
+                value -> playGame(playerLabels, numberOfStickPerPlayer, riskAttitudes)
+        ).collect(Collectors.toList());
     }
 
     /**
