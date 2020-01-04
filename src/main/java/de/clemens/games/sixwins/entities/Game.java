@@ -1,78 +1,93 @@
 /*
- *     Six Wins
- *     Copyright (C) 2018  Clemens Bartz
+ * Six Wins
+ *  Copyright (C) 2020  Clemens Bartz
  *
- *     This program is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General Public License as published by
- *     the Free Software Foundation, either version 3 of the License, or
- *     (at your option) any later version.
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
  *
- *     This program is distributed in the hope that it will be useful,
- *     but WITHOUT ANY WARRANTY; without even the implied warranty of
- *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *     You should have received a copy of the GNU General Public License
- *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 package de.clemens.games.sixwins.entities;
 
+import de.clemens.games.sixwins.enums.ERiskAttitudes;
+
+import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
- * Represents a full game.
- * This game can be advanced with rolling a dice.
+ * Represents a game that is being played.
+ * @since 2.0
  * @author Clemens Bartz
  */
-public final class Game {
+final class Game {
 
     /** The minimum number of players. */
     private static final int PLAYERNUMMIN = 2;
-
     /** The maximum value for a dice. */
     private static final int DICEMAX = 6;
-
     /** The minimum value for a dice. */
     private static final int DICEMIN = 1;
-
     /** The dice value when a stick should go to the box. */
     private static final int BOXVALUE = 6;
 
+    /** The queue with all player indices. */
+    private final Queue<Player> players;
+    /** The risk attitudes of the players. */
+    private final ERiskAttitudes[] riskAttitudes;
+    /** The dice to be used. */
+    private final Random dice;
     /** The round we are in. */
     private Integer round = 1;
-
     /** The number of dices for a player. */
     private Integer numberOfDices = 0;
-
     /** The box to hold the sticks when a six was diced. */
     private final Box box;
-
     /** The playfield. */
     private final Playfield playfield;
-
-    /** The list of players. */
-    private final Queue<Player> players;
-
     /** The currently active player. */
     private Player activePlayer;
-
     /** Game is finished. */
     private boolean isFinished = false;
 
     /**
-     * Create a new game.
-     * @param players the players to play the game (the first player will start)
+     * Construct a new game.
+     * @param riskAttitudes the risk attitudes of the players
      */
-    public Game(final Queue<Player> players) {
-        if (players == null || players.size() < PLAYERNUMMIN) {
-            throw new IllegalArgumentException("There need to be at least " + Integer.toString(PLAYERNUMMIN) + " players to play the game.");
-        }
-
+    Game(final ERiskAttitudes[] riskAttitudes, final Random random) {
+        this.players = IntStream.range(0, riskAttitudes.length-1).mapToObj(value -> new Player(value, riskAttitudes[value])).collect(Collectors.toCollection(LinkedList::new));
+        this.riskAttitudes = riskAttitudes;
+        this.dice = random;
         this.box = new Box();
         this.playfield = new Playfield();
         this.activePlayer = players.poll();
-        this.players = players;
+    }
+
+    /**
+     *
+     * @return the id of the winner
+     */
+    int getWinner() {
+        Player winner = null;
+
+        do {
+            final int diceValue = dice.nextInt(DICEMAX) + DICEMIN;
+
+            winner = advance(diceValue);
+        } while (winner == null);
+
+        return winner.getId();
     }
 
     /**
@@ -80,7 +95,7 @@ public final class Game {
      * @param diceValue the value of the dice.
      * @return the player who has won, or <code>null</code> if the game can advance
      */
-    public Player advance(final int diceValue) {
+    private Player advance(final int diceValue) {
         boolean passToNextPlayer = false;
 
         // Check if game is finished
@@ -162,7 +177,7 @@ public final class Game {
      *
      * @return the round we are currently in
      */
-    public Integer getRound() {
+    Integer getRound() {
         return round;
     }
 
@@ -170,7 +185,9 @@ public final class Game {
      *
      * @return the number of dices that have been thrown this round
      */
-    public Integer getNumberOfDices() {
+    Integer getNumberOfDices() {
         return numberOfDices;
     }
+
+
 }

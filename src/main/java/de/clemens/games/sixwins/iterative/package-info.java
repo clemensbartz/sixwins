@@ -16,13 +16,9 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.clemens.games.sixwins.entities;
-
 /**
- * A wooden stick.
- * @author Clemens Bartz
+ * Contains the code for the iterative approach.
  * @since 2.0
+ * @author Clemens Bartz
  */
-final class Stick {
-
-}
+package de.clemens.games.sixwins.iterative;
