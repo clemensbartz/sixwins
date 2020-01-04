@@ -126,13 +126,6 @@
                     <failIfNoTests>true</failIfNoTests>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <!-- Generate site. -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.6</version>
-            </plugin>
         </plugins>
     </build>
 
