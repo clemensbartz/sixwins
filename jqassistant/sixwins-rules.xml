@@ -24,7 +24,7 @@
 
     <!-- Define groups. -->
     <group id="default">
-        <includeConstraint refId="sixwins-constraint:ClassesFinalOrAbstract" severity="major" />
+        <includeConstraint refId="sixwins-constraint:*" severity="major" />
     </group>
 
     <!-- Define concepts. -->
@@ -77,6 +77,16 @@
         </cypher>
     </constraint>
 
+    <constraint id="sixwins-constraint:TestMethodsWithNoAnnotation">
+        <requiresConcept refId="siwins-concept:TestScopeClasses" />
+        <description>Check that all test methods have at least one annotation.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (:Class:Test)-[:DECLARES]->(m:Method) WHERE NOT EXISTS ((m)-[:ANNOTATED_BY]->(:Annotation)) AND NOT coalesce(m.synthetic, false) AND NOT (m.name = "<init>") RETURN m
+            ]]>
+        </cypher>
+    </constraint>
+
     <constraint id="sixwins-constraint:TestClassesWithNoDisplayName">
         <requiresConcept refId="siwins-concept:TestScopeClasses" />
         <description>Check that all test classes have the display name annotation.</description>
@@ -87,7 +97,7 @@
         </cypher>
     </constraint>
 
-    <constraint id="sixwins-constraint:TestMethdosWithNoDisplayName">
+    <constraint id="sixwins-constraint:TestMethodsWithNoDisplayName">
         <requiresConcept refId="siwins-concept:TestScopeClasses" />
         <description>Check that all test methods have the display name annotation.</description>
         <cypher>
