@@ -72,7 +72,7 @@ public final class Session {
         }
 
         /**
-         * Set the number of sticks per player
+         * Set the number of sticks per player.
          * @param numberOfSticksPerPlayer the number of sticks per player
          * @return this builder
          */
