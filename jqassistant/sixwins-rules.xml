@@ -1,0 +1,57 @@
+<!--
+  ~ Six Wins
+  ~  Copyright (C) 2020  Clemens Bartz
+  ~
+  ~  This program is free software: you can redistribute it and/or modify
+  ~  it under the terms of the GNU General Public License as published by
+  ~  the Free Software Foundation, either version 3 of the License, or
+  ~  (at your option) any later version.
+  ~
+  ~  This program is distributed in the hope that it will be useful,
+  ~  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~  GNU General Public License for more details.
+  ~
+  ~  You should have received a copy of the GNU General Public License
+  ~  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  -->
+
+<jqa:jqassistant-rules
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:jqa="http://www.buschmais.com/jqassistant/core/analysis/rules/schema/v1.0"
+        xsi:schemaLocation="http://www.buschmais.com/jqassistant/core/analysis/rules/schema/v1.0 https://raw.githubusercontent.com/jQAssistant/jqa-core-framework/b688dbf42d274881312a1e2fd1370d97224f7c38/analysis/src/main/resources/META-INF/xsd/jqassistant-rules-1.0.xsd"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/jQAssistant/jqa-core-framework/b688dbf42d274881312a1e2fd1370d97224f7c38/analysis/src/main/resources/META-INF/xsd/jqassistant-rules-1.0.xsd">
+
+    <group id="default">
+        <includeConstraint refId="sixwins-constraint:ClassesFinalOrAbstract" severity="major" />
+    </group>
+
+    <concept id="sixwins-concept:MainScopePackages">
+        <description>Mark all main packages with :Main.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (:Artifact:Main)-[:CONTAINS*]->(d:Directory) SET d:Main RETURN d
+            ]]>
+        </cypher>
+    </concept>
+
+    <concept id="siwins-concept:MainScopeClasses">
+        <requiresConcept refId="sixwins-concept:MainScopePackages" />
+        <description>Mark all main classes with :Main.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (:Directory:Main)-[:CONTAINS]->(c:Class) SET c:Main return c
+            ]]>
+        </cypher>
+    </concept>
+
+    <constraint id="sixwins-constraint:ClassesFinalOrAbstract">
+        <requiresConcept refId="siwins-concept:MainScopeClasses" />
+        <description>Check that all classes are final or abstract.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (n:Main:Class) WHERE NOT coalesce(n.abstract, false) XOR coalesce(n.final, false) RETURN n as InvalidClass
+            ]]>
+        </cypher>
+    </constraint>
+</jqa:jqassistant-rules>

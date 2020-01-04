@@ -126,6 +126,27 @@
                     <failIfNoTests>true</failIfNoTests>
                 </configuration>
             </plugin>
+
+            <!-- configuration of jQAssistant -->
+            <plugin>
+                <groupId>com.buschmais.jqassistant</groupId>
+                <artifactId>jqassistant-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>scan</goal>
+                            <goal>analyze</goal>
+                        </goals>
+                        <phase>test</phase>
+                        <configuration>
+                            <warnOnSeverity>INFO</warnOnSeverity>
+                            <failOnSeverity>MINOR</failOnSeverity>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
