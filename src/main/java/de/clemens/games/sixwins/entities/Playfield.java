@@ -75,7 +75,7 @@ final class Playfield {
      * @return the percentage how many fields are occupied
      */
     public Double getOccupationPercentage() {
-        Integer occupiedFields = 0;
+        int occupiedFields = 0;
 
         for (Stick stick : sticks) {
             if (stick != null) {
@@ -83,6 +83,6 @@ final class Playfield {
             }
         }
 
-        return occupiedFields.doubleValue() / (NUMBER_OF_FIELDS.doubleValue() + 1);
+        return (double) occupiedFields / (NUMBER_OF_FIELDS.doubleValue());
     }
 }
