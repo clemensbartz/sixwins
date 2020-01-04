@@ -82,8 +82,8 @@
 
     <ciManagement>
         <!-- Specifiy where artifact is built. -->
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/clemensbartz/sixwins</url>
+        <system>Github Actions</system>
+        <url>https://github.com/clemensbartz/sixwins/actions</url>
     </ciManagement>
 
     <licenses>
