@@ -33,8 +33,6 @@ import java.util.stream.IntStream;
  */
 final class Game {
 
-    /** The minimum number of players. */
-    private static final int PLAYERNUMMIN = 2;
     /** The maximum value for a dice. */
     private static final int DICEMAX = 6;
     /** The minimum value for a dice. */
