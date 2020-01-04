@@ -44,7 +44,7 @@ public final class Session {
          * Create a new builder.
          */
         public Builder() {
-
+            // nothing to do here
         }
 
         /**
