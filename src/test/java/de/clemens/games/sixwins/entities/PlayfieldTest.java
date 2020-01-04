@@ -97,4 +97,27 @@ class PlayfieldTest {
 
         assertEquals(Playfield.NUMBER_OF_FIELDS, playfield.getOccupiedFields(), "occupation is not " + Playfield.NUMBER_OF_FIELDS);
     }
+
+    /**
+     * Check that the pop() method returns null upon creation.
+     */
+    @DisplayName("Check that the pop() method returns null upon creation")
+    @Order(6)
+    @TestFactory
+    Stream<DynamicTest> test0006() {
+        return IntStream.rangeClosed(1, Playfield.NUMBER_OF_FIELDS).mapToObj(i -> DynamicTest.dynamicTest("get field " + i, () -> assertNull(playfield.pop(i), i + " was not null")));
+    }
+
+    /**
+     * Put a stick in each field. Check that this is returned.
+     */
+    @DisplayName("Put a stick in each field. Check that it is returned")
+    @Order(7)
+    @TestFactory
+    Stream<DynamicTest> test0007() {
+        return IntStream.rangeClosed(1, Playfield.NUMBER_OF_FIELDS).mapToObj(i -> DynamicTest.dynamicTest("set and get field " + i, () -> {
+            playfield.push(i, new Stick());
+            assertNotNull(playfield.pop(i), "no stick was found");
+        }));
+    }
 }
