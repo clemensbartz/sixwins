@@ -44,8 +44,6 @@ final class Game {
 
     /** The queue with all player indices. */
     private final Queue<Player> players;
-    /** The risk attitudes of the players. */
-    private final ERiskAttitudes[] riskAttitudes;
     /** The dice to be used. */
     private final Random dice;
     /** The round we are in. */
@@ -68,7 +66,7 @@ final class Game {
      */
     Game(final ERiskAttitudes[] riskAttitudes, final Random random) {
         this.players = IntStream.range(0, riskAttitudes.length).mapToObj(value -> new Player(value, riskAttitudes[value])).collect(Collectors.toCollection(LinkedList::new));
-        this.riskAttitudes = riskAttitudes;
+        /** The risk attitudes of the players. */
         this.dice = random;
         this.box = new Box();
         this.playfield = new Playfield();
