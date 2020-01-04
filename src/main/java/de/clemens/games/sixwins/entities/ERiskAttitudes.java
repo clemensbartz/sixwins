@@ -24,27 +24,10 @@ package de.clemens.games.sixwins.entities;
  */
 public enum ERiskAttitudes {
 
-    /** Will pass at 50% of the fields. */
-    RISK_AVERSE((double) (Playfield.NUMBER_OF_FIELDS / 2) - 1e-8), // Add a little offset for calculation reasons.
-    /** Will pass not pass at 0.5 + 1e-8. */
-    RISK_LOVING((double) (Playfield.NUMBER_OF_FIELDS / 2) + 1e-8); // Add a little offset for calculation reasons.
-
-    /** The risk percentage. */
-    private final Double passPercentage;
-
-    /**
-     * Create a new risk attitude with a certain pass percentage.
-     * @param passPercentage the percentage to pass
-     */
-    ERiskAttitudes(final Double passPercentage) {
-        this.passPercentage = passPercentage;
-    }
-
-    /**
-     *
-     * @return the risk percentage
-     */
-    public Double getPassPercentage() {
-        return passPercentage;
-    }
+    /** A risk averse player will pass if the risk is 0.5 or higher. */
+    AVERSE,
+    /** A risk neutral player will pass if the risk is above 0.5. */
+    NEUTRAL,
+    /** A risk seeking player will do one step above the 0.5. */
+    SEEKING;
 }

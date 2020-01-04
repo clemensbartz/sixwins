@@ -82,7 +82,7 @@ class PlayfieldTest {
     @Order(4)
     @Test
     void test0004() {
-        assertEquals(0d, playfield.getOccupationPercentage(), "occupation is not 0");
+        assertEquals(0, playfield.getOccupiedFields(), "occupation is not 0");
     }
 
     /**
@@ -92,8 +92,8 @@ class PlayfieldTest {
     @Order(5)
     @Test
     void test0005() {
-        IntStream.range(1, 6).forEach(value -> playfield.push(value, new Stick()));
+        IntStream.rangeClosed(1, Playfield.NUMBER_OF_FIELDS).forEach(value -> playfield.push(value, new Stick()));
 
-        assertEquals(1d, playfield.getOccupationPercentage(), "occupation is not 1");
+        assertEquals(Playfield.NUMBER_OF_FIELDS, playfield.getOccupiedFields(), "occupation is not " + Playfield.NUMBER_OF_FIELDS);
     }
 }

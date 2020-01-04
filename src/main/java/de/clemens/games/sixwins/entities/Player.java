@@ -18,6 +18,8 @@
 
 package de.clemens.games.sixwins.entities;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Stack;
 
 /**
@@ -25,10 +27,13 @@ import java.util.Stack;
  */
 final class Player {
 
+    /** The fraction to add. */
+    private static final double FRACTION = 1e-8;
+
     /** The id of the player. */
     private final int id;
-    /** The risk attitude of that player. */
-    private final ERiskAttitudes riskAttitude;
+    /** The pass value at which the player will not continue. */
+    private final int passValue;
     /** The stack of sticks. */
     private final Stack<Stick> sticks = new Stack<>();
 
@@ -39,16 +44,45 @@ final class Player {
      */
     Player(final int id, final ERiskAttitudes riskAttitude) {
         this.id = id;
-        this.riskAttitude = riskAttitude;
+
+        final double halfNumberOfFields = (double) Playfield.NUMBER_OF_FIELDS / (double) 2;
+
+        switch (riskAttitude) {
+            case AVERSE:
+                passValue = round(halfNumberOfFields, RoundingMode.DOWN);
+                break;
+            case NEUTRAL:
+                if (Playfield.NUMBER_OF_FIELDS % 2 == 0) {
+                    passValue = Playfield.NUMBER_OF_FIELDS / 2;
+                } else {
+                    passValue = round(halfNumberOfFields, RoundingMode.DOWN);
+                }
+                break;
+            case SEEKING:
+                passValue = round(halfNumberOfFields + FRACTION, RoundingMode.UP);
+                break;
+            default:
+                throw new IllegalArgumentException("unsupported risk attitude");
+        }
     }
 
     /**
-     * Tells if the player passes at a certain percentage.
-     * @param percentage the percentage to check
+     * Round a double.
+     * @param d the double
+     * @param roundingMode the mode to round
+     * @return an int
+     */
+    private int round(final double d, final RoundingMode roundingMode) {
+        return BigDecimal.valueOf(d).setScale(0, roundingMode).intValue();
+    }
+
+    /**
+     * Tells if the player passes at a certain number of occupied fields.
+     * @param occupiedFields the number of occupied fields
      * @return if the player passes
      */
-    boolean doesPass(final Double percentage) {
-        return percentage.compareTo(riskAttitude.getPassPercentage()) >= 0;
+    boolean doesPass(final int occupiedFields) {
+        return occupiedFields >= passValue;
     }
 
     /**
