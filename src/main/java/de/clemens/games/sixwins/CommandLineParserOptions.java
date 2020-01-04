@@ -29,13 +29,13 @@ import org.apache.commons.cli.Options;
 public final class CommandLineParserOptions {
 
     /** The command line argument for number of games. */
-    public static String CLI_OPTION_NUMBER_OF_GAMES = "numberOfGames";
+    public static final String CLI_OPTION_NUMBER_OF_GAMES = "numberOfGames";
     /** The command line argument for number of players. */
-    public static String CLI_OPTION_NUMBER_OF_PLAYERS = "numberOfPlayers";
+    public static final String CLI_OPTION_NUMBER_OF_PLAYERS = "numberOfPlayers";
     /** The command line argument for max seed. */
-    public static String CLI_OPTION_MAX_SEED = "maxSeed";
+    public static final String CLI_OPTION_MAX_SEED = "maxSeed";
     /** The command line argument for number of sticks per player.*/
-    public static String CLI_OPTION_NUMBER_OF_STICK_PER_PLAYER = "numberOfStickPerPlayer";
+    public static final String CLI_OPTION_NUMBER_OF_STICK_PER_PLAYER = "numberOfStickPerPlayer";
 
     /**
      * Hidden constructor.
@@ -55,7 +55,7 @@ public final class CommandLineParserOptions {
         numberOfPlayersOption.setRequired(true);
         options.addOption(numberOfPlayersOption);
 
-        final Option numberOfStickPerPlayerOption = new Option("n", CLI_OPTION_NUMBER_OF_STICK_PER_PLAYER, true , "number of sticks per player");
+        final Option numberOfStickPerPlayerOption = new Option("n", CLI_OPTION_NUMBER_OF_STICK_PER_PLAYER, true, "number of sticks per player");
         numberOfStickPerPlayerOption.setRequired(true);
         options.addOption(numberOfStickPerPlayerOption);
 
