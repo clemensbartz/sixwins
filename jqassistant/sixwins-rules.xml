@@ -22,9 +22,30 @@
         xsi:schemaLocation="http://www.buschmais.com/jqassistant/core/analysis/rules/schema/v1.0 https://raw.githubusercontent.com/jQAssistant/jqa-core-framework/b688dbf42d274881312a1e2fd1370d97224f7c38/analysis/src/main/resources/META-INF/xsd/jqassistant-rules-1.0.xsd"
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/jQAssistant/jqa-core-framework/b688dbf42d274881312a1e2fd1370d97224f7c38/analysis/src/main/resources/META-INF/xsd/jqassistant-rules-1.0.xsd">
 
+    <!-- Define groups. -->
     <group id="default">
         <includeConstraint refId="sixwins-constraint:ClassesFinalOrAbstract" severity="major" />
     </group>
+
+    <!-- Define concepts. -->
+    <concept id="sixwins-concept:TestScopePackages" severity="info">
+        <description>Mark all test packages with :Test.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (:Artifact:Test)-[:CONTAINS*]->(d:Directory) SET d:Test RETURN d
+            ]]>
+        </cypher>
+    </concept>
+
+    <concept id="siwins-concept:TestScopeClasses">
+        <requiresConcept refId="sixwins-concept:TestScopePackages" />
+        <description>Mark all test classes with :Test.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (:Directory:Test)-[:CONTAINS]->(c:Class) WHERE NOT coalesce(c.synthetic, false) SET c:Test return c
+            ]]>
+        </cypher>
+    </concept>
 
     <concept id="sixwins-concept:MainScopePackages">
         <description>Mark all main packages with :Main.</description>
@@ -45,12 +66,23 @@
         </cypher>
     </concept>
 
+    <!-- Define constraints. -->
     <constraint id="sixwins-constraint:ClassesFinalOrAbstract">
         <requiresConcept refId="siwins-concept:MainScopeClasses" />
         <description>Check that all classes are final or abstract.</description>
         <cypher>
             <![CDATA[
                 MATCH (n:Main:Class) WHERE NOT coalesce(n.abstract, false) XOR coalesce(n.final, false) RETURN n as InvalidClass
+            ]]>
+        </cypher>
+    </constraint>
+
+    <constraint id="sixwins-constraint:TestClassesWithNoDisplayName">
+        <requiresConcept refId="siwins-concept:TestScopeClasses" />
+        <description>Check that all test classes have the display name annotation.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (c:Class:Test) WHERE NOT EXISTS ((c)-[:ANNOTATED_BY]->(:Annotation)-[:OF_TYPE]->(:Type {name: "DisplayName"})) RETURN c
             ]]>
         </cypher>
     </constraint>
