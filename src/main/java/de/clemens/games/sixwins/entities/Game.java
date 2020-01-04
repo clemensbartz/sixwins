@@ -170,21 +170,5 @@ final class Game {
         return null;
     }
 
-    /**
-     *
-     * @return the round we are currently in
-     */
-    Integer getRound() {
-        return round;
-    }
-
-    /**
-     *
-     * @return the number of dices that have been thrown this round
-     */
-    Integer getNumberOfDices() {
-        return numberOfDices;
-    }
-
 
 }
