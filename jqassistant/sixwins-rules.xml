@@ -86,4 +86,14 @@
             ]]>
         </cypher>
     </constraint>
+
+    <constraint id="sixwins-constraint:TestMethdosWithNoDisplayName">
+        <requiresConcept refId="siwins-concept:TestScopeClasses" />
+        <description>Check that all test methods have the display name annotation.</description>
+        <cypher>
+            <![CDATA[
+                MATCH (:Class:Test)-[:DECLARES]->(m:Method) WHERE NOT EXISTS ((m)-[:ANNOTATED_BY]->(:Annotation)-[:OF_TYPE]->(:Type {name: "DisplayName"})) AND NOT coalesce(m.synthetic, false) AND NOT (m.name = "<init>")RETURN m
+            ]]>
+        </cypher>
+    </constraint>
 </jqa:jqassistant-rules>

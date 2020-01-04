@@ -50,6 +50,7 @@ class PlayfieldTest {
     // Technically, this makes no sense, but is good for learning:
     /** Create a new playfield for each test instance. */
     @BeforeEach
+    @DisplayName("Create new playfield")
     void beforeEach() {
         playfield = new Playfield();
     }
