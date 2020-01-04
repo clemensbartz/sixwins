@@ -76,7 +76,7 @@ final class Game {
      * @return the id of the winner
      */
     int getWinner() {
-        Player winner = null;
+        Player winner;
 
         do {
             final int diceValue = dice.nextInt(DICEMAX) + DICEMIN;
