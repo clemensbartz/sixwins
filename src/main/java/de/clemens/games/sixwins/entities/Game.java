@@ -66,7 +66,7 @@ final class Game {
      * @param riskAttitudes the risk attitudes of the players
      */
     Game(final ERiskAttitudes[] riskAttitudes, final Random random) {
-        this.players = IntStream.range(0, riskAttitudes.length-1).mapToObj(value -> new Player(value, riskAttitudes[value])).collect(Collectors.toCollection(LinkedList::new));
+        this.players = IntStream.range(0, riskAttitudes.length).mapToObj(value -> new Player(value, riskAttitudes[value])).collect(Collectors.toCollection(LinkedList::new));
         this.riskAttitudes = riskAttitudes;
         this.dice = random;
         this.box = new Box();
