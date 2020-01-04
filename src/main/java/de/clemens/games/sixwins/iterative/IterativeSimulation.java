@@ -20,7 +20,7 @@ package de.clemens.games.sixwins.iterative;
 
 import de.clemens.games.sixwins.AbstractSimulation;
 import de.clemens.games.sixwins.entities.Session;
-import de.clemens.games.sixwins.enums.ERiskAttitudes;
+import de.clemens.games.sixwins.entities.ERiskAttitudes;
 
 import java.util.HashMap;
 import java.util.List;

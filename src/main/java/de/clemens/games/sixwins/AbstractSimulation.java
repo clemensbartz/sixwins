@@ -18,7 +18,7 @@
 
 package de.clemens.games.sixwins;
 
-import de.clemens.games.sixwins.enums.ERiskAttitudes;
+import de.clemens.games.sixwins.entities.ERiskAttitudes;
 
 import java.util.Arrays;
 import java.util.Collection;

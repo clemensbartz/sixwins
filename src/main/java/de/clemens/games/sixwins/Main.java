@@ -18,7 +18,7 @@
 
 package de.clemens.games.sixwins;
 
-import de.clemens.games.sixwins.enums.ERiskAttitudes;
+import de.clemens.games.sixwins.entities.ERiskAttitudes;
 import de.clemens.games.sixwins.iterative.IterativeSimulation;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;

@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package de.clemens.games.sixwins.enums;
+package de.clemens.games.sixwins.entities;
 
 /**
  * Describes different risk attributes.
@@ -24,10 +24,10 @@ package de.clemens.games.sixwins.enums;
  */
 public enum ERiskAttitudes {
 
-    /** Will pass at 0.5. */
-    RISK_AVERSE(0.5),
-    /** Will pass at 0.5 + 1e-8. */
-    RISK_LOVING(0.5 + 1e-8);
+    /** Will pass at 50% of the fields. */
+    RISK_AVERSE((double) (Playfield.NUMBER_OF_FIELDS / 2) - 1e-8), // Add a little offset for calculation reasons.
+    /** Will pass not pass at 0.5 + 1e-8. */
+    RISK_LOVING((double) (Playfield.NUMBER_OF_FIELDS / 2) + 1e-8); // Add a little offset for calculation reasons.
 
     /** The risk percentage. */
     private final Double passPercentage;

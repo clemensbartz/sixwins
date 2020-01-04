@@ -24,7 +24,7 @@ package de.clemens.games.sixwins.entities;
 final class Playfield {
 
     /** The number of fields in the game. */
-    private static final Integer NUMBER_OF_FIELDS = 5;
+    public static final Integer NUMBER_OF_FIELDS = 5;
 
     /** The array to hold all the sticks. */
     private final Stick[] sticks = new Stick[NUMBER_OF_FIELDS];

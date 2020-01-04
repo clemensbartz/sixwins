@@ -18,8 +18,6 @@
 
 package de.clemens.games.sixwins.entities;
 
-import de.clemens.games.sixwins.enums.ERiskAttitudes;
-
 import java.util.Stack;
 
 /**
