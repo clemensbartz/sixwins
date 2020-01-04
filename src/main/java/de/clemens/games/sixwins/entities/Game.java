@@ -136,10 +136,7 @@ final class Game {
             return activePlayer;
         }
 
-        // Make the game (a little) more fair
-        /*if (round <= 1) {
-            passToNextPlayer = true;
-        }*/
+        // Here would be a good option, to pass to the next player in round 1: Make the game (a little) more fair
 
         // Check if the player (out of preference) wants to pass to the next
         if (!passToNextPlayer && activePlayer.doesPass(playfield.getOccupiedFields())) {
