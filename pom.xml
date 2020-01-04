@@ -28,6 +28,9 @@
     <packaging>jar</packaging>
 
     <properties>
+        <sonar.projectKey>clemensbartz_sixwins</sonar.projectKey>
+        <sonar.organization>clemensbartz</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <!-- Specify that every code is written in UTF 8 to be platform independent. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -146,6 +149,13 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- configuration of sonar. -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.7.0.1746</version>
             </plugin>
         </plugins>
     </build>
