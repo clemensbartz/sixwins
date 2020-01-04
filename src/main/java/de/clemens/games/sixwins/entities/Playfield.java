@@ -36,7 +36,7 @@ final class Playfield {
      */
     public Stick pop(final int pos) {
         if (pos < 1 || pos > NUMBER_OF_FIELDS) {
-            throw new IllegalArgumentException("There are only " + Integer.toString(NUMBER_OF_FIELDS) + " on the field.");
+            throw new IllegalArgumentException("There are only " + NUMBER_OF_FIELDS + " on the field.");
         }
 
         final int stickNumber = pos - 1;
@@ -58,7 +58,7 @@ final class Playfield {
      */
     public void push(final int pos, final Stick stick) {
         if (pos < 1 || pos > NUMBER_OF_FIELDS) {
-            throw new IllegalArgumentException("There are only " + Integer.toString(NUMBER_OF_FIELDS) + " on the field.");
+            throw new IllegalArgumentException("There are only " + NUMBER_OF_FIELDS + " on the field.");
         }
 
         final int stickNumber = pos - 1;
