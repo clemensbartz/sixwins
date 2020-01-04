@@ -18,17 +18,35 @@
 
 package de.clemens.games.sixwins.entities;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test cases for box.
  * @author Clemens Bartz
+ * @since 2.0
  */
 @DisplayName("Test class Box.")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BoxTest {
+
+    /** The box to run the tests on. */
+    private Box box;
+
+    /**
+     * Before all method execution, create a new box.
+     * <br />
+     * Note that this method does not need to be static, since
+     * the lifecycle is set to "per-class".
+     */
+    @BeforeAll
+    void beforeAll() {
+        box = new Box();
+    }
 
     /**
      * Add a stick to the box.
@@ -38,11 +56,7 @@ class BoxTest {
     void test0001() {
         final Stick stick = new Stick();
 
-        final Box box = new Box();
-
-        assertDoesNotThrow(() -> {
-            box.addStick(stick);
-        }, "did throw an exception");
+        assertDoesNotThrow(() -> box.addStick(stick), "did throw an exception");
     }
 
     /**
@@ -51,11 +65,7 @@ class BoxTest {
     @DisplayName("Check for exception when adding null.")
     @Test
     void test0002() {
-        final Box box = new Box();
-
-        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            box.addStick(null);
-        }, "did not throw IllegalArgumentException");
+        final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> box.addStick(null), "did not throw IllegalArgumentException");
 
         assertNotEquals(0, exception.getMessage().trim().length(), "exception had no message");
     }
