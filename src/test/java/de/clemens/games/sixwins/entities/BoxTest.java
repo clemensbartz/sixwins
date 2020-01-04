@@ -20,8 +20,10 @@ package de.clemens.games.sixwins.entities;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,6 +34,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DisplayName("Test class Box.")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 class BoxTest {
 
     /** The box to run the tests on. */
