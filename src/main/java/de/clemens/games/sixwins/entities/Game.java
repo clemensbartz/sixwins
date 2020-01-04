@@ -64,6 +64,7 @@ final class Game {
     /**
      * Construct a new game.
      * @param riskAttitudes the risk attitudes of the players
+     * @param random the random number generator for this game
      */
     Game(final ERiskAttitudes[] riskAttitudes, final Random random) {
         this.players = IntStream.range(0, riskAttitudes.length).mapToObj(value -> new Player(value, riskAttitudes[value])).collect(Collectors.toCollection(LinkedList::new));
