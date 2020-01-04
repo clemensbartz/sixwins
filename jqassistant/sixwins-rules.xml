@@ -40,7 +40,7 @@
         <description>Mark all main classes with :Main.</description>
         <cypher>
             <![CDATA[
-                MATCH (:Directory:Main)-[:CONTAINS]->(c:Class) SET c:Main return c
+                MATCH (:Directory:Main)-[:CONTAINS]->(c:Class) WHERE NOT coalesce(c.synthetic, false) SET c:Main return c
             ]]>
         </cypher>
     </concept>
