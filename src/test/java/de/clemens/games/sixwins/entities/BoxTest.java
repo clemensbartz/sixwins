@@ -46,6 +46,7 @@ class BoxTest {
      * Note that this method does not need to be static, since
      * the lifecycle is set to "per-class".
      */
+    @DisplayName("Initialize the box")
     @BeforeAll
     void beforeAll() {
         box = new Box();
