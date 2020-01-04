@@ -91,9 +91,7 @@ public final class Main {
             // Count the numbers in the list
             final Map<Integer, Long> winCount = value1.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-            IntStream.range(0, key.length).forEach(value -> {
-                System.out.println("player #" + (value + 1) + ": " + key[value] + " " + winCount.get(value));
-            });
+            IntStream.range(0, key.length).forEach(value -> System.out.println("player #" + (value + 1) + ": " + key[value] + " " + winCount.get(value)));
 
             System.out.println("-----------------------");
         });
